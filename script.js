@@ -1,10 +1,7 @@
-'use strict';
-
 let money = +prompt("Ваш бюджет на месяц", "0"),
-    time = prompt("Введите дату в формате YYYY-MM-DD", "");
+    time = prompt("Введите дату в формате YYYY-MM-DD", "2020-11-23");
 
-
-var AppData = {
+let appData = {
     money: money,
     timeData: time,
     expenses: {},
@@ -13,11 +10,30 @@ var AppData = {
     savings: false
 };
 
-let q1 = prompt("Введите обязательную статью расходов в этом месяце", ""),
-    q2 = prompt("Во сколько обойдется?", ""),
-    q3 = prompt("Введите обязательную статью расходов в этом месяце", ""),
-    q4 = prompt("Во сколько обойдется?", "");
+for (let i = 0; i < 2; i++) {
 
-AppData.expenses[q1] = q2;
-AppData.expenses[q3] = q4;
-alert(AppData.money / 30);
+    let item = prompt("Введите обязательную статью расходов в этом месяце", "Еда"),
+        sum = prompt("Во сколько обойдется?", "1000");
+
+    if (item != "" && sum != "" && typeof(item) != null && typeof(sum) != null) {
+        console.log("done");
+        appData.expenses[item] = sum;
+    } else {
+        console.log("false");
+        i--;
+    }
+
+}
+
+appData.dayMoney = appData.money / 30;
+alert("Ежедневный бюджет составляет: " + appData.dayMoney);
+
+if (appData.dayMoney < 500) {
+    alert("Ты бич ссаный");
+} else if (appData.dayMoney > 500 && appData.dayMoney < 3000) {
+    alert("Неплохо живешь");
+} else if (appData.dayMoney > 3000) {
+    alert("Нихуя ты баклажан");
+} else {
+    alert("Ошибка");
+}
