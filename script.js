@@ -1,39 +1,73 @@
-let money = +prompt("Ваш бюджет на месяц", "0"),
+let money, time;
+
+function start() {
+    money = +prompt("Ваш бюджет на месяц", "0");
     time = prompt("Введите дату в формате YYYY-MM-DD", "2020-11-23");
 
+    while (isNaN(money) || money == "" || money == null) {
+        money = +prompt("Ваш бюджет на месяц", "0");
+    }
+}
+start();
+
 let appData = {
-    money: money,
+    budget: money,
     timeData: time,
     expenses: {},
-    optionalExpenses: "",
+    optionalExpenses: {},
     income: [],
     savings: false
 };
 
-for (let i = 0; i < 2; i++) {
+function chooseExpenses() {
+    for (let i = 0; i < 2; i++) {
+        let item = prompt("Введите обязательную статью расходов в этом месяце", "Еда"),
+            sum = prompt("Во сколько обойдется?", "1000");
 
-    let item = prompt("Введите обязательную статью расходов в этом месяце", "Еда"),
-        sum = prompt("Во сколько обойдется?", "1000");
-
-    if (item != "" && sum != "" && typeof(item) != null && typeof(sum) != null) {
-        console.log("done");
-        appData.expenses[item] = sum;
-    } else {
-        console.log("false");
-        i--;
+        if (item != "" && sum != "" && typeof(item) != null && typeof(sum) != null) {
+            console.log("done");
+            appData.expenses[item] = sum;
+        } else {
+            console.log("false");
+            i--;
+        }
     }
-
 }
+chooseExpenses();
 
-appData.dayMoney = appData.money / 30;
-alert("Ежедневный бюджет составляет: " + appData.dayMoney);
-
-if (appData.dayMoney < 500) {
-    alert("Ты бич ссаный");
-} else if (appData.dayMoney > 500 && appData.dayMoney < 3000) {
-    alert("Неплохо живешь");
-} else if (appData.dayMoney > 3000) {
-    alert("Нихуя ты баклажан");
-} else {
-    alert("Ошибка");
+function detectDayBudget() {
+    appData.dayMoney = (appData.budget / 30).toFixed(1);
+    alert("Ежедневный бюджет составляет: " + appData.dayMoney);
 }
+detectDayBudget();
+
+function checkSaving() {
+    if (appData.savings == true) {
+        let save = +prompt("Каков размер ваших накоплений", ""),
+            percent = +prompt("Под какой процент хранятся ваши накопления", "");
+
+        appData.monthIncome = save * percent / 100 / 12;
+        alert("Размер вашего пассивного дохода в месяц составляет" + appData.monthIncome);
+    }
+}
+checkSaving();
+
+function detectLevel() {
+    if (appData.dayMoney < 500) {
+        alert("Ты бич ссаный");
+    } else if (appData.dayMoney > 500 && appData.dayMoney < 3000) {
+        alert("Неплохо живешь");
+    } else if (appData.dayMoney > 3000) {
+        alert("Нихуя ты баклажан");
+    } else {
+        alert("Ошибка");
+    }
+}
+detectLevel();
+
+function chooseOptExpenses() {
+    for (let i = 0; i < 3; i++) {
+        appData.optionalExpenses[i + 1] = prompt("Статья необязательных расходов", "");
+    }
+}
+chooseOptExpenses();
